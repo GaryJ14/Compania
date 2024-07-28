@@ -1,0 +1,66 @@
+{% extends "./plantilla.html" %}
+{% block body %}
+<br><br><br><br><br>
+<div class="card">
+    <div class="card-title text-center">
+        <h3><b>Listado de Empleado</b></h3>
+    </div>
+</div>
+<br>
+<div class="text-end">
+    <a href="{% url 'nuevoEmpleado' %}" class="btn btn-success">Agregar Empleado</a>
+</div>
+<br>
+<table class="table table-bordered table-striped table-hover" id="tbl-empleado">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Salario</th>
+            <th>Puesto</th>
+            <th>Empresa</th>
+            <th>Foto</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for empleadoTemporal in empleado %}
+        <tr>
+            <td>{{empleadoTemporal.id_empl}}</td>
+            <td>{{empleadoTemporal.nombre_empl}}</td>
+            <td>{{empleadoTemporal.apellido_empl}}</td>
+            <td>{{empleadoTemporal.salario_empl}}</td>
+            <td>{{empleadoTemporal.puesto_empl}}</td>
+            <td>{{empleadoTemporal.id_empr}}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <center><img src="{{empleadoTemporal.foto_empl.url}}" alt="No hay" height="150px" width="150px"></center>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a download href="{{empleadoTemporal.foto_empl.url}}" class="dropdown-item" style="color:red" ><b>DESCARGAR</b></a></li>
+                      <li><a href="{{empleadoTemporal.foto_empl.url}}" target="_blank" class="dropdown-item"><b>AMPLIAR</b></a></li>
+                    </ul>
+                  </div>
+            <!--BOTONES-->
+            </td>
+                <td class="text-center">
+                    <a href="{% url 'editarEmpleado' empleadoTemporal.id_empl %}" class="btn btn-outline-warning btn-circle"
+                    title="Editar Cine">
+                        <i class="fas fa-pencil"></i>
+                    </a>
+                    <a href="{% url 'eliminarEmpleado' empleadoTemporal.id_empl %}" onclick="return confirm('¿Estás seguro?');" class="btn btn-outline-danger btn-circle">
+                        <i class="fas fa-trash"> </i>
+                    </a>
+                </td>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    let table = new DataTable('#tbl-empleado');
+</script>
+{% endblock %}

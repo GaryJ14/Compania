@@ -1,0 +1,116 @@
+{% extends "./plantilla.html" %}
+{% block body %}
+<br><br><br><br><br>
+<h1>EDITAR EMPLEADO</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'procesarActualizacionEmpleado' %}" method="post" id="frm_nuevo_empleado">
+                {% csrf_token %}
+                <input type="hidden" name="id_empl" value="{{editarEmpleado.id_empl}}">
+                <label for=""><b>Nombre:</b></label>
+                <input type="text" name="nombre_empl" class="form-control"
+                value="{{editarEmpleado.nombre_empl}}"
+                id="nombre_empl" placeholder="Ingrese el nombre del empleado">
+
+                <label for=""><b>Apellido:</b></label>
+                <input type="text" name="apellido_empl" class="form-control"
+                value="{{editarEmpleado.apellido_empl}}"
+                id="apellido_empl" placeholder="Ingrese el apellido del empleado">
+
+                <label for=""><b>Salario:</b></label>
+                <input type="Number" name="salario_empl" class="form-control"
+                value="{{editarEmpleado.salario_empl}}"
+                id="salario_empl" placeholder="Ingrese el salario del Empleado">
+
+                <label for=""><b>Puesto:</b></label>
+                <input type="text" name="puesto_empl" class="form-control"
+                value="{{editarEmpleado.puesto_empl}}"
+                id="puesto_empl" placeholder="Ingrese el puesto del empleado">
+
+                <label for=""><b>Empresa:</b></label>
+                <select name="empresa" class="form-control" id="empresa" >
+                    <option value="{{empleadoEditar.empresa}}">Seleccione una Empresa</option>
+                    {% for empresatemp in empresas %}
+                        <option value="{{ empresatemp.id_empr }}" {% if empresatemp.id_empr == empleadoEditar.empresatemp.id_empr %}selected{% endif %}>
+                            {{ empresa.nombre_empr }}
+                        </option>
+                    <!-- <option value="{{ raza.id }}">{{ raza.nombre }}</option>-->
+                    {% endfor %}
+                </select>
+                <label for=""><b>Fotografia:</b></label>
+                <input type="file" name="foto_empl" class="form-control"
+                value="{{editarEmpleado.foto_empl}}"
+                id="foto_empl" accept="image/*" required  placeholder="Ingrese la fotografia del empleado">
+
+                <br>
+                <button  type="submit" class="btn btn-warning">
+                    Actualizar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'ListadoEmpleado' %}" class="btn btn-danger">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+
+<script>    
+    $("#frm_nuevo_empleado").validate({
+        rules:{
+            nombre_empl:{
+                required:true,
+                minlength:3,
+                maxlength:10
+            },
+            apellido_empl
+            :{
+                required:true,
+                minlength:3,
+                maxlength:10
+            },
+            salario_empl:{
+                required:true,
+                number:true,
+            },
+            puesto_empl:{
+                required:true,
+            },
+            empresa:{
+                required:true,
+                
+            },
+           
+            foto_empl:{
+                required:true
+            }
+        },
+        messages:{
+            nombre_empl:{
+                required:"Por favor ingrese el nombre",
+                minlength:"El nombre debe tener al menos 3 letras",
+                maxlength:"Maximo 10 caracteres"
+            },
+            apellido_empl:{
+                required:"Por favor ingrese el apellido",
+                minlength:"El nombre debe tener al menos 3 letras",
+                maxlength:"Maximo 10 caracteres"
+            },
+            salario_empl:{
+                required:"Por favor ingrese el salario",
+                number:"Solo Numeros"
+            },
+            puesto_empl:{
+                required:"Por favor ingrese su puesto de trabajo",
+            },
+            empresa:{
+                required:"Por favor ingrese la empresa a la que trabaja",
+                
+            },
+            foto_empl:{
+                required:"La fotografia es obligatoria",
+            
+            },
+        }
+    });
+</script>
+{% endblock %}

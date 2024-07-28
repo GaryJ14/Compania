@@ -1,0 +1,105 @@
+{% extends "./plantilla.html" %}
+{%load static%}
+{% block body %}
+<br><br><br><br><br>
+<h1>Nueva Empresas</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'guardarEmpresa' %}" id="frm_nueva_empresa" method="post">
+                {% csrf_token %}
+                <label for=""><b>Nombre:</b></label>
+                <input type="text" name="nombre_empr" class="form-control" id="nombre_empr" placeholder="Ingrese el nombre de la Empresa" required>
+                <br>
+                <label for=""><b>Direccion:</b></label>
+                <input type="text" name="direccion_empr" class="form-control" id="direccion_empr" placeholder="Ingrese la direccion de la empresa" required  >
+                <br>
+                <label for=""><b>Telefono:</b></label>
+                <input type="text" name="telefono_empr" class="form-control"  id="telefono_empr" placeholder="Ingrese el telefono empresarial" required>
+                <br>
+                <label for=""><b>Email:</b></label>
+                <input type="text" name="email_empr" class="form-control" id="email_empr" placeholder="Ingrese el email de la empresa" required>
+                <br>
+                <label for=""><b>Fundacion:</b></label>
+                <input type="date" name="fundacion_empr" class="form-control" id="fundacion_empr" placeholder="Ingrese la fecha de fundacion de la empresa" required >
+                <br>
+                <label for=""><b>Sector:</b></label>
+                <input type="text" name="sector_empr" class="form-control" id="sector_empr" placeholder="Ingrese el sector de la empresa" required >
+
+                <br>
+                <button type="submit" class="btn btn-success">Guardar</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="{% url 'ListadoEmpresa' %}" class="btn btn-warning">Cancelar</a>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<script>    
+    $("#frm_nueva_empresa").validate({
+        rules:{
+            nombre_empr:{
+                required:true,
+                minlength:3,
+                maxlength:10
+            },
+            telefono_empr:{
+                required:true,
+                minlength:10,
+                maxlength:10
+            },
+            
+            direccion_empr:{
+                required:true,
+            },
+            email_empr:{
+                required:true,
+                email:true,
+            },
+            fundacion_empr:{
+                required:true,
+                date: true
+            },
+            sector_empr:{
+                required:true,
+            },
+
+            
+
+        },
+        messages:{
+            nombre_empr:{
+                required:"Por favor ingrese el nombre",
+                minlength:"El nombre debe tener al menos 3 letras",
+                maxlength:"Maximo 10 caracteres"
+            },
+            telefono_empr:{
+                required:"El numero es obligatoria",
+                minlength:"El numero debe tener 10 numeros",
+                maxlength:"Maximo 10 numeros"
+            },
+            direccion_empr:{
+                required:"Por favor ingrese una direccion",
+            },
+
+            email_empr:{
+                required:"Por favor ingrese un correo",
+                email:"Por favor ingrese un email ",
+            },
+            fundacion_empr:{
+                required:"Ingrese la fecha de Fundacion",
+                date: true
+            },
+            sector_empr:{
+                required:"Ingrese el sector de la empresa Publica o Privada ",
+            },
+
+        }
+    });
+</script>
+
+
+{% endblock  %}
