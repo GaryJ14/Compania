@@ -67,8 +67,10 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link active" aria-current="page" href="/">Inicio</a></li>
-          <li><a class="nav-link" href="{% url 'ListadoEmpresa' %}">Empresa</a></li>
-          <li><a class="nav-link" href="{% url 'ListadoEmpleado' %}">Empleado</a></li>
+          <li><a class="nav-link" href="{% url 'Proyectos' %}">Proyectos</a></li>
+          <li><a class="nav-link" href="{% url 'Contactos' %}">Contactos</a></li>
+          <li><a href="{% url 'loginAdmin' %}"><span class="fas fa-user"></span> ADMIN</a>
+          </li>
           
         </ul>
       </nav><!-- .navbar -->

@@ -1,11 +1,12 @@
-{% extends "./plantilla.html" %}
+{% extends "./Backend/plantillas.html" %}
+{% load static %}
 {% block body %}
 <br><br><br><br><br>
 <h1>EDITAR EMPLEADO</h1>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <form action="{% url 'procesarActualizacionEmpleado' %}" method="post" id="frm_nuevo_empleado">
+            <form action="{% url 'procesarActualizacionEmpleado' %}" method="post" id="frm_nuevo_empleado" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="id_empl" value="{{editarEmpleado.id_empl}}">
                 <label for=""><b>Nombre:</b></label>
@@ -29,21 +30,20 @@
                 id="puesto_empl" placeholder="Ingrese el puesto del empleado">
 
                 <label for=""><b>Empresa:</b></label>
-                <select name="empresa" class="form-control" id="empresa" >
-                    <option value="{{empleadoEditar.empresa}}">Seleccione una Empresa</option>
+                <select name="empresa" class="form-control" id="empresa">
+                    <option value="">Seleccione una Empresa</option>
                     {% for empresatemp in empresas %}
-                        <option value="{{ empresatemp.id_empr }}" {% if empresatemp.id_empr == empleadoEditar.empresatemp.id_empr %}selected{% endif %}>
-                            {{ empresa.nombre_empr }}
+                        <option value="{{ empresatemp.id_empr }}" {% if empresatemp.id_empr == empleadoEditar.empresa %}selected{% endif %}>
+                            {{ empresatemp.nombre_empr }}
                         </option>
-                    <!-- <option value="{{ raza.id }}">{{ raza.nombre }}</option>-->
                     {% endfor %}
                 </select>
-                <label for=""><b>Fotografia:</b></label>
+                <label for="foto_empl"><b>Fotografía:</b></label>
                 <input type="file" name="foto_empl" class="form-control"
-                value="{{editarEmpleado.foto_empl}}"
-                id="foto_empl" accept="image/*" required  placeholder="Ingrese la fotografia del empleado">
-
+                       id="foto_empl" accept="image/*" required placeholder="Ingrese la fotografía del empleado">
+                
                 <br>
+                
                 <button  type="submit" class="btn btn-warning">
                     Actualizar</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

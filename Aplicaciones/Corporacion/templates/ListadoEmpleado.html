@@ -1,4 +1,5 @@
-{% extends "./plantilla.html" %}
+{% extends "./Backend/plantillas.html" %}
+{% load static %}
 {% block body %}
 <br><br><br><br><br>
 <div class="card">
@@ -34,16 +35,10 @@
             <td>{{empleadoTemporal.puesto_empl}}</td>
             <td>{{empleadoTemporal.id_empr}}</td>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <center><img src="{{empleadoTemporal.foto_empl.url}}" alt="No hay" height="150px" width="150px"></center>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a download href="{{empleadoTemporal.foto_empl.url}}" class="dropdown-item" style="color:red" ><b>DESCARGAR</b></a></li>
-                      <li><a href="{{empleadoTemporal.foto_empl.url}}" target="_blank" class="dropdown-item"><b>AMPLIAR</b></a></li>
-                    </ul>
-                  </div>
-            <!--BOTONES-->
+                <a href="{{empleadoTemporal.foto_empl.url}}" target="_blank">
+                    <img src="{{empleadoTemporal.foto_empl.url}}" alt="" height="100px" width="100px">
+                </a><br>
+                <a download href="{{empleadoTemporal.foto_empl.url}}">Descargar</a>
             </td>
                 <td class="text-center">
                     <a href="{% url 'editarEmpleado' empleadoTemporal.id_empl %}" class="btn btn-outline-warning btn-circle"

@@ -1,5 +1,16 @@
 from django.db import models
 
+class Registro(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    confirmPassword= models.CharField(max_length=255)
+
+    def __str__(self):
+        fila = "{0}: {1} - {2} - {3} - {4}"
+        return fila.format(self.id, self.nombre, self.email, self.password, self.confirmPassword)
+
 class Empresas(models.Model):
     id_empr=models.AutoField(primary_key=True)
     nombre_empr=models.CharField(max_length=100)

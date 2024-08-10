@@ -1,17 +1,39 @@
 
 from django.shortcuts import render, redirect
-from .models import Empresas, Empleados
+from django.shortcuts import get_object_or_404
+from .models import Empresas, Empleados, Registro
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 
 # Create your views here.
-def home(request):
-   
-    
+def home(request):    
     return render (request,"home.html")
 
+def Contact(request):    
+    return render (request,"contact.html")
+def Projects(request):    
+    return render (request,"projects.html")
+def loginAdmin(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        
+        try:
+            user = Registro.objects.get(email=email)
+            if user.password == password:
+                # Aquí podrías manejar la lógica de iniciar sesión correctamente
+                messages.success(request, 'Inicio de sesión exitoso')
+                return redirect('Administrador')  # Redirige a la página principal u otra página
+            else:
+                messages.error(request, 'Contraseña incorrecta')
+        except Registro.DoesNotExist:
+            messages.error(request, 'El correo electrónico no está registrado')
 
+    return render(request, 'Backend/loginAdmin.html')
+
+def Administrador(request):    
+    return render (request,"Backend/Administrador.html")
 #Funcion listado raza
 def ListadoEmpresa(request):
     empresabdd=Empresas.objects.all()
@@ -140,28 +162,36 @@ def editarEmpleado(request,id):
 
 #Actualizando los datos en la base de datos
 def procesarActualizacionEmpleado(request):
-    id_empl=request.POST["id_empl"]
-    nombre_empl=request.POST["nombre_empl"]
-    apellido_empl=request.POST["apellido_empl"]
-    salario_empl=request.POST["salario_empl"]
-    puesto_empl=request.POST["puesto_empl"]
-    id_empr=request.POST["empresa"]
-    foto_empl=request.FILES.get["foto_empl"]
+    if request.method == 'POST':
+        id_empl = request.POST.get("id_empl")
+        nombre_empl = request.POST.get("nombre_empl")
+        apellido_empl = request.POST.get("apellido_empl")
+        salario_empl = request.POST.get("salario_empl")
+        puesto_empl = request.POST.get("puesto_empl")
+        id_empr = request.POST.get("empresa")
+        foto_empl = request.FILES.get("foto_empl")
 
-    empleadoConsultado=Empleados.objects.get(id_empl=id_empl)
-    empresaConsultado=Empresas.objects.get(id_empr=id_empr)
+        # Usar get_object_or_404 para manejar el caso en que no se encuentra el empleado
+        empleadoConsultado = get_object_or_404(Empleados, id_empl=id_empl)
+        empresaConsultado = get_object_or_404(Empresas, id_empr=id_empr)
 
-    empleadoConsultado.nombre_empl=nombre_empl
-    empleadoConsultado.apellido_empl=apellido_empl
-    empleadoConsultado.salario_empl=salario_empl
-    empleadoConsultado.puesto_empl=puesto_empl
-    empleadoConsultado.id_empr=empresaConsultado
-    empleadoConsultado.foto_empl=foto_empl
+        # Actualizar los campos del empleado
+        empleadoConsultado.nombre_empl = nombre_empl
+        empleadoConsultado.apellido_empl = apellido_empl
+        empleadoConsultado.salario_empl = salario_empl
+        empleadoConsultado.puesto_empl = puesto_empl
+        empleadoConsultado.id_empr = empresaConsultado
+        
+        # Solo actualizar la foto si se ha proporcionado un nuevo archivo
+        if foto_empl:
+            empleadoConsultado.foto_empl = foto_empl
 
-    empleadoConsultado.save()
-    messages.success(request,"Empleado actualizado exitosamente.")
+        empleadoConsultado.save()
+        messages.success(request, "Empleado actualizado exitosamente.")
+        return redirect('ListadoEmpleado')
+
+    messages.error(request, "Método no permitido.")
     return redirect('ListadoEmpleado')
-
 
 #PARA MANDAR UN CORREO
 
@@ -171,7 +201,7 @@ def enviar_correo(request):
         email=request.POST["email"]
         phone=request.POST["phone"]
         message=request.POST["message"]
-        email1="joelcalero2002@gmail.com"
+        email1="gary.jami01@gmail.com"
 
         # Construir y enviar el correo electrónico
         subject = 'Nuevo mensaje guardado'

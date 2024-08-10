@@ -1,7 +1,14 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('',views.home),
+    path('Contactos',views.Contact,name="Contactos"),
+    path('Proyectos',views.Projects,name="Proyectos"),
+    path('loginAdmin', views.loginAdmin,name='loginAdmin'),
+    path('Administrador', views.Administrador,name='Administrador'),
     #MODELO Empresa
     path('ListadoEmpresa/',views.ListadoEmpresa,name="ListadoEmpresa"),
     path('nuevaEmpresa/',views.nuevaEmpresa, name='nuevaEmpresa'),
@@ -19,4 +26,4 @@ urlpatterns = [
     
     path('enviar_correo/',views.enviar_correo, name='enviar_correo'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
