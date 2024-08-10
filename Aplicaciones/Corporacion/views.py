@@ -201,7 +201,7 @@ def enviar_correo(request):
         email=request.POST["email"]
         phone=request.POST["phone"]
         message=request.POST["message"]
-        email1="gary.jami01@gmail.com"
+        email1="joelcalero2002@gmail.com"
 
         # Construir y enviar el correo electrónico
         subject = 'Nuevo mensaje guardado'
